@@ -1,6 +1,29 @@
-# 🧠 Remindly
+# 🧠 Remindly & Diary
 
-Smart personal memory & reminder assistant application built with Flutter. Developed by **Vijay Sankar S**.
+Smart personal life-management application featuring a central Dashboard, Personal Memory & Reminder Assistant (**Remindly**), and Private Daily Journal (**Diary**). Built with Flutter using Material 3 design and clean architecture.
+
+Developed by **Vijay Sankar S**.
+
+---
+
+## 🚀 Key Modules & Architecture
+
+1. **Central Dashboard (`/`)**:
+   - Modern Material 3 dashboard interface presenting modular tiles.
+   - Designed for easy expansion of future personal productivity modules.
+
+2. **Remandly (Personal Memory Assistant)**:
+   - Voice-enabled memory assistant with speech-to-text and optional text-to-speech readouts.
+   - Secure private memory entries protected by biometric or PIN unlock.
+
+3. **Diary (Private Daily Journal)**:
+   - Encrypted daily entries with rich rich-text content and tag classification.
+   - Standalone security lock with custom PIN and biometric authentication.
+   - Auto-lock timeouts (Immediately, 1 Minute, 5 Minutes).
+   - Zero-logging policy ensuring private text is never output to console logs or crash reports.
+   - Cloud backup integration placeholder.
+
+---
 
 ## 📖 Build & Emulator Instructions
 
@@ -30,8 +53,10 @@ flutter build apk --release
 ---
 
 ## 🔒 Security & Key Features
-- **App Startup Lock**: Biometric Unlock (Fingerprint / Face ID) or Mobile PIN (Default: `1234`).
-- **Secure / Private Memories 🔒**: Mark sensitive reminders as private.
+- **App & Module Security Lock**: Biometric Unlock (Fingerprint / Face ID) or Mobile PIN (Default: `1234`).
+- **Secure / Private Entries 🔒**: Salted SHA-256 PIN hashing stored safely in encrypted storage.
 - **Voice Search & TTS**: Speech-to-text voice search with automated text-to-speech search result readouts.
+- **Multi-Language Support**: English, Hindi, Tamil, Kannada, Tulu.
 - **Developer Credit**: Developed by Vijay Sankar S.
+
 

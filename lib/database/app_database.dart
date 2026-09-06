@@ -1,15 +1,16 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'tables/diary_entries_table.dart';
 import 'tables/memories_table.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [Memories])
+@DriftDatabase(tables: [Memories, DiaryEntries])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'remindly_db');
@@ -21,6 +22,9 @@ class AppDatabase extends _$AppDatabase {
       onUpgrade: (m, from, to) async {
         if (from < 2) {
           await m.addColumn(memories, memories.isSecure);
+        }
+        if (from < 3) {
+          await m.createTable(diaryEntries);
         }
       },
       onCreate: (m) async {

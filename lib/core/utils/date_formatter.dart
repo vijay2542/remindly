@@ -21,6 +21,10 @@ class DateFormatter {
     }
   }
 
+  static String formatDate(DateTime dateTime) {
+    return DateFormat('MMMM d, yyyy').format(dateTime);
+  }
+
   static String formatShortDate(DateTime dateTime) {
     return DateFormat('MMM d, yyyy').format(dateTime);
   }

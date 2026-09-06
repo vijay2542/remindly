@@ -662,15 +662,422 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
   }
 }
 
+class $DiaryEntriesTable extends DiaryEntries
+    with TableInfo<$DiaryEntriesTable, DiaryEntryData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DiaryEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _contentMeta = const VerificationMeta(
+    'content',
+  );
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+    'content',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _diaryDateMeta = const VerificationMeta(
+    'diaryDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> diaryDate = GeneratedColumn<DateTime>(
+    'diary_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    content,
+    diaryDate,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'diary_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DiaryEntryData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    }
+    if (data.containsKey('content')) {
+      context.handle(
+        _contentMeta,
+        content.isAcceptableOrUnknown(data['content']!, _contentMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentMeta);
+    }
+    if (data.containsKey('diary_date')) {
+      context.handle(
+        _diaryDateMeta,
+        diaryDate.isAcceptableOrUnknown(data['diary_date']!, _diaryDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_diaryDateMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DiaryEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DiaryEntryData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      content: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content'],
+      )!,
+      diaryDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}diary_date'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DiaryEntriesTable createAlias(String alias) {
+    return $DiaryEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class DiaryEntryData extends DataClass implements Insertable<DiaryEntryData> {
+  final String id;
+  final String title;
+  final String content;
+  final DateTime diaryDate;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const DiaryEntryData({
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.diaryDate,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['title'] = Variable<String>(title);
+    map['content'] = Variable<String>(content);
+    map['diary_date'] = Variable<DateTime>(diaryDate);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  DiaryEntriesCompanion toCompanion(bool nullToAbsent) {
+    return DiaryEntriesCompanion(
+      id: Value(id),
+      title: Value(title),
+      content: Value(content),
+      diaryDate: Value(diaryDate),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DiaryEntryData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DiaryEntryData(
+      id: serializer.fromJson<String>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      content: serializer.fromJson<String>(json['content']),
+      diaryDate: serializer.fromJson<DateTime>(json['diaryDate']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'title': serializer.toJson<String>(title),
+      'content': serializer.toJson<String>(content),
+      'diaryDate': serializer.toJson<DateTime>(diaryDate),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DiaryEntryData copyWith({
+    String? id,
+    String? title,
+    String? content,
+    DateTime? diaryDate,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => DiaryEntryData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    content: content ?? this.content,
+    diaryDate: diaryDate ?? this.diaryDate,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  DiaryEntryData copyWithCompanion(DiaryEntriesCompanion data) {
+    return DiaryEntryData(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      content: data.content.present ? data.content.value : this.content,
+      diaryDate: data.diaryDate.present ? data.diaryDate.value : this.diaryDate,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiaryEntryData(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('content: $content, ')
+          ..write('diaryDate: $diaryDate, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, title, content, diaryDate, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DiaryEntryData &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.content == this.content &&
+          other.diaryDate == this.diaryDate &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class DiaryEntriesCompanion extends UpdateCompanion<DiaryEntryData> {
+  final Value<String> id;
+  final Value<String> title;
+  final Value<String> content;
+  final Value<DateTime> diaryDate;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const DiaryEntriesCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.content = const Value.absent(),
+    this.diaryDate = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DiaryEntriesCompanion.insert({
+    required String id,
+    this.title = const Value.absent(),
+    required String content,
+    required DateTime diaryDate,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       content = Value(content),
+       diaryDate = Value(diaryDate),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<DiaryEntryData> custom({
+    Expression<String>? id,
+    Expression<String>? title,
+    Expression<String>? content,
+    Expression<DateTime>? diaryDate,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (content != null) 'content': content,
+      if (diaryDate != null) 'diary_date': diaryDate,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DiaryEntriesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? title,
+    Value<String>? content,
+    Value<DateTime>? diaryDate,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return DiaryEntriesCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      diaryDate: diaryDate ?? this.diaryDate,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (diaryDate.present) {
+      map['diary_date'] = Variable<DateTime>(diaryDate.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DiaryEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('content: $content, ')
+          ..write('diaryDate: $diaryDate, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $MemoriesTable memories = $MemoriesTable(this);
+  late final $DiaryEntriesTable diaryEntries = $DiaryEntriesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [memories];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [memories, diaryEntries];
 }
 
 typedef $$MemoriesTableCreateCompanionBuilder = MemoriesCompanion Function({
@@ -995,10 +1402,240 @@ typedef $$MemoriesTableProcessedTableManager =
       MemoryEntry,
       PrefetchHooks Function()
     >;
+typedef $$DiaryEntriesTableCreateCompanionBuilder =
+    DiaryEntriesCompanion Function({
+      required String id,
+      Value<String> title,
+      required String content,
+      required DateTime diaryDate,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$DiaryEntriesTableUpdateCompanionBuilder =
+    DiaryEntriesCompanion Function({
+      Value<String> id,
+      Value<String> title,
+      Value<String> content,
+      Value<DateTime> diaryDate,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$DiaryEntriesTableFilterComposer
+    extends Composer<_$AppDatabase, $DiaryEntriesTable> {
+  $$DiaryEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get diaryDate => $composableBuilder(
+    column: $table.diaryDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DiaryEntriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $DiaryEntriesTable> {
+  $$DiaryEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get diaryDate => $composableBuilder(
+    column: $table.diaryDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DiaryEntriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DiaryEntriesTable> {
+  $$DiaryEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get content =>
+      $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get diaryDate =>
+      $composableBuilder(column: $table.diaryDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$DiaryEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiaryEntriesTable,
+          DiaryEntryData,
+          $$DiaryEntriesTableFilterComposer,
+          $$DiaryEntriesTableOrderingComposer,
+          $$DiaryEntriesTableAnnotationComposer,
+          $$DiaryEntriesTableCreateCompanionBuilder,
+          $$DiaryEntriesTableUpdateCompanionBuilder,
+          (
+            DiaryEntryData,
+            BaseReferences<_$AppDatabase, $DiaryEntriesTable, DiaryEntryData>,
+          ),
+          DiaryEntryData,
+          PrefetchHooks Function()
+        > {
+  $$DiaryEntriesTableTableManager(_$AppDatabase db, $DiaryEntriesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DiaryEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DiaryEntriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DiaryEntriesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> content = const Value.absent(),
+                Value<DateTime> diaryDate = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DiaryEntriesCompanion(
+                id: id,
+                title: title,
+                content: content,
+                diaryDate: diaryDate,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<String> title = const Value.absent(),
+                required String content,
+                required DateTime diaryDate,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => DiaryEntriesCompanion.insert(
+                id: id,
+                title: title,
+                content: content,
+                diaryDate: diaryDate,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DiaryEntriesTable, DiaryEntryData>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $DiaryEntriesTable,
+                    DiaryEntryData
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DiaryEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiaryEntriesTable,
+      DiaryEntryData,
+      $$DiaryEntriesTableFilterComposer,
+      $$DiaryEntriesTableOrderingComposer,
+      $$DiaryEntriesTableAnnotationComposer,
+      $$DiaryEntriesTableCreateCompanionBuilder,
+      $$DiaryEntriesTableUpdateCompanionBuilder,
+      (
+        DiaryEntryData,
+        BaseReferences<_$AppDatabase, $DiaryEntriesTable, DiaryEntryData>,
+      ),
+      DiaryEntryData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$MemoriesTableTableManager get memories =>
       $$MemoriesTableTableManager(_db, _db.memories);
+  $$DiaryEntriesTableTableManager get diaryEntries =>
+      $$DiaryEntriesTableTableManager(_db, _db.diaryEntries);
 }

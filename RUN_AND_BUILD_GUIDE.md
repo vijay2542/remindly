@@ -93,13 +93,25 @@ adb install build/app/outputs/flutter-apk/app-release.apk
 
 ## 🔑 5. App Credentials & Security Features
 
-- **App Security Lock**:
-  - **Biometrics**: Fingerprint / Face Unlock supported on device/emulator.
+- **Central Dashboard & Modular Extensibility**:
+  - `/` route hosts the top-level app launcher.
+  - **Remandly**: Personal Memory Assistant.
+  - **Diary**: Private Daily Journal.
+- **Diary Security & Lock**:
+  - **Salted SHA-256 PIN Hashing**: PIN is never stored in plaintext.
+  - **Biometrics**: Fingerprint / Face Unlock supported on physical devices and emulators.
+  - **Lock Timeout Options**: Immediately, 1 Minute, or 5 Minutes.
+  - **Zero Content Logging**: Diary entries suppress text printing in console logs and debug traces.
+  - **Cloud Sync**: Interface ready with *"Cloud Backup: Coming soon"* notification.
+- **Remandly Security Lock**:
   - **Default Mobile PIN**: `1234`
   - **Secure Reminders 🔒**: Toggle *"Mark as Secure / Private"* when creating memories to protect sensitive information.
-- **Voice Features**:
-  - **Voice Command Search**: Speak to search your memories.
-  - **Text-To-Speech (TTS)**: Toggle voice readout for search results.
+- **Multi-Language Support**:
+  - 🇬🇧 English (`en`)
+  - 🇮🇳 Hindi (`hi` - हिंदी)
+  - 🇮🇳 Tamil (`ta` - தமிழ்)
+  - 🇮🇳 Kannada (`kn` - ಕನ್ನಡ)
+  - 🇮🇳 Tulu (`tcy` - ತುಳು)
 - **Developer Credit**:
   - Developed by **Vijay Sankar S**.
 
