@@ -95,7 +95,7 @@ adb install build/app/outputs/flutter-apk/app-release.apk
 
 - **Central Dashboard & Modular Extensibility**:
   - `/` route hosts the top-level app launcher.
-  - **Remandly**: Personal Memory Assistant.
+  - **Remindly**: Personal Memory Assistant.
   - **Diary**: Private Daily Journal.
 - **Diary Security & Lock**:
   - **Salted SHA-256 PIN Hashing**: PIN is never stored in plaintext.
@@ -103,7 +103,7 @@ adb install build/app/outputs/flutter-apk/app-release.apk
   - **Lock Timeout Options**: Immediately, 1 Minute, or 5 Minutes.
   - **Zero Content Logging**: Diary entries suppress text printing in console logs and debug traces.
   - **Cloud Sync**: Interface ready with *"Cloud Backup: Coming soon"* notification.
-- **Remandly Security Lock**:
+- **Remindly Security Lock**:
   - **Default Mobile PIN**: `1234`
   - **Secure Reminders 🔒**: Toggle *"Mark as Secure / Private"* when creating memories to protect sensitive information.
 - **Multi-Language Support**:

@@ -20,10 +20,10 @@ class DashboardState {
   const DashboardState({
     this.modules = const [
       DashboardModuleInfo(
-        id: 'remandly',
-        title: 'Remandly',
+        id: 'remindly',
+        title: 'Remindly',
         description: 'Remember anything. Find it when you need it.',
-        route: '/remandly',
+        route: '/remindly',
       ),
       DashboardModuleInfo(
         id: 'diary',

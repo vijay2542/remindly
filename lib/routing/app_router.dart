@@ -27,8 +27,8 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const LockPage(),
     ),
     GoRoute(
-      path: '/remandly',
-      name: 'remandly-home',
+      path: '/remindly',
+      name: 'remindly-home',
       builder: (context, state) => const HomePage(),
     ),
     GoRoute(

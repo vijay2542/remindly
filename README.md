@@ -12,7 +12,7 @@ Developed by **Vijay Sankar S**.
    - Modern Material 3 dashboard interface presenting modular tiles.
    - Designed for easy expansion of future personal productivity modules.
 
-2. **Remandly (Personal Memory Assistant)**:
+2. **Remindly (Personal Memory Assistant)**:
    - Voice-enabled memory assistant with speech-to-text and optional text-to-speech readouts.
    - Secure private memory entries protected by biometric or PIN unlock.
 

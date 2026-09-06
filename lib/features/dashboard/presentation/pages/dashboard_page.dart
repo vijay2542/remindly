@@ -106,14 +106,14 @@ class DashboardPage extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
 
-              // 1. Remandly Module Card
+              // 1. Remindly Module Card
               ModuleCard(
-                title: 'Remandly',
+                title: 'Remindly',
                 description: 'Remember anything. Find it when you need it.',
                 icon: Icons.psychology,
                 iconColor: theme.colorScheme.primary,
                 badgeText: 'Personal Memory Assistant',
-                onTap: () => context.push('/remandly'),
+                onTap: () => context.push('/remindly'),
               ),
 
               // 2. Diary Module Card
