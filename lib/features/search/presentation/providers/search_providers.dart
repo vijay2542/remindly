@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/services/tts_service.dart';
 import '../../../../features/memory/presentation/providers/memory_providers.dart';
 import '../../../memory/domain/entities/memory.dart';
 import '../../data/datasources/local_ai_answer_service.dart';
@@ -10,6 +11,10 @@ import '../../domain/repositories/memory_search_engine.dart';
 import '../../domain/repositories/search_repository.dart';
 import '../../domain/usecases/ask_memory_question.dart';
 import '../../domain/usecases/search_memories.dart';
+
+final ttsServiceProvider = Provider<TtsService>((ref) {
+  return FlutterTtsServiceImpl();
+});
 
 final memorySearchEngineProvider = Provider<MemorySearchEngine>((ref) {
   final db = ref.watch(appDatabaseProvider);
@@ -42,6 +47,8 @@ class SearchState {
   final AiAnswer? answer;
   final List<Memory> matches;
   final String? error;
+  final bool isVoiceReadoutEnabled;
+  final bool isSpeaking;
 
   const SearchState({
     this.query = '',
@@ -49,6 +56,8 @@ class SearchState {
     this.answer,
     this.matches = const [],
     this.error,
+    this.isVoiceReadoutEnabled = true,
+    this.isSpeaking = false,
   });
 
   SearchState copyWith({
@@ -57,6 +66,8 @@ class SearchState {
     AiAnswer? answer,
     List<Memory>? matches,
     String? error,
+    bool? isVoiceReadoutEnabled,
+    bool? isSpeaking,
   }) {
     return SearchState(
       query: query ?? this.query,
@@ -64,6 +75,8 @@ class SearchState {
       answer: answer ?? this.answer,
       matches: matches ?? this.matches,
       error: error,
+      isVoiceReadoutEnabled: isVoiceReadoutEnabled ?? this.isVoiceReadoutEnabled,
+      isSpeaking: isSpeaking ?? this.isSpeaking,
     );
   }
 }
@@ -71,16 +84,40 @@ class SearchState {
 class SearchNotifier extends StateNotifier<SearchState> {
   final SearchMemoriesUseCase searchUseCase;
   final AskMemoryQuestionUseCase askUseCase;
+  final TtsService ttsService;
 
   SearchNotifier({
     required this.searchUseCase,
     required this.askUseCase,
+    required this.ttsService,
   }) : super(const SearchState());
+
+  void toggleVoiceReadout() {
+    final next = !state.isVoiceReadoutEnabled;
+    state = state.copyWith(isVoiceReadoutEnabled: next);
+    if (!next) {
+      stopSpeaking();
+    }
+  }
+
+  Future<void> speakAnswerText([String? textToSpeak]) async {
+    final text = textToSpeak ?? state.answer?.answerText;
+    if (text != null && text.isNotEmpty) {
+      state = state.copyWith(isSpeaking: true);
+      await ttsService.speak(text);
+    }
+  }
+
+  Future<void> stopSpeaking() async {
+    await ttsService.stop();
+    state = state.copyWith(isSpeaking: false);
+  }
 
   Future<void> executeQuery(String query) async {
     final cleaned = query.trim();
     if (cleaned.isEmpty) {
-      state = const SearchState();
+      await stopSpeaking();
+      state = state.copyWith(query: '', answer: null, matches: []);
       return;
     }
 
@@ -93,12 +130,16 @@ class SearchNotifier extends StateNotifier<SearchState> {
       final answer = await answerFuture;
       final matches = await matchesFuture;
 
-      state = SearchState(
+      state = state.copyWith(
         query: cleaned,
         isLoading: false,
         answer: answer,
         matches: matches,
       );
+
+      if (state.isVoiceReadoutEnabled && answer.answerText.isNotEmpty) {
+        speakAnswerText(answer.answerText);
+      }
     } catch (e) {
       state = state.copyWith(isLoading: false, error: 'Failed to process query.');
     }
@@ -109,5 +150,10 @@ final searchNotifierProvider =
     StateNotifierProvider.autoDispose<SearchNotifier, SearchState>((ref) {
   final searchUseCase = ref.watch(searchMemoriesUseCaseProvider);
   final askUseCase = ref.watch(askMemoryQuestionUseCaseProvider);
-  return SearchNotifier(searchUseCase: searchUseCase, askUseCase: askUseCase);
+  final ttsService = ref.watch(ttsServiceProvider);
+  return SearchNotifier(
+    searchUseCase: searchUseCase,
+    askUseCase: askUseCase,
+    ttsService: ttsService,
+  );
 });

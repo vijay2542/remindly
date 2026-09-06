@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../memory/presentation/widgets/memory_card.dart';
 import '../../domain/entities/ai_answer.dart';
+import '../providers/search_providers.dart';
 
-class AnswerCard extends StatelessWidget {
+class AnswerCard extends ConsumerWidget {
   final AiAnswer answer;
 
   const AnswerCard({
@@ -12,8 +14,10 @@ class AnswerCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final searchState = ref.watch(searchNotifierProvider);
+    final notifier = ref.read(searchNotifierProvider.notifier);
 
     return Card(
       elevation: 0,
@@ -47,9 +51,24 @@ class AnswerCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const Spacer(),
+                IconButton(
+                  icon: Icon(
+                    searchState.isSpeaking ? Icons.stop_circle : Icons.volume_up_outlined,
+                    color: searchState.isSpeaking ? theme.colorScheme.error : theme.colorScheme.primary,
+                  ),
+                  tooltip: searchState.isSpeaking ? 'Stop speaking' : 'Read answer aloud',
+                  onPressed: () {
+                    if (searchState.isSpeaking) {
+                      notifier.stopSpeaking();
+                    } else {
+                      notifier.speakAnswerText(answer.answerText);
+                    }
+                  },
+                ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
             SelectableText(
               answer.answerText,

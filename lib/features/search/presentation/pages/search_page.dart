@@ -98,6 +98,14 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         ),
         actions: [
           IconButton(
+            icon: Icon(
+              searchState.isVoiceReadoutEnabled ? Icons.volume_up : Icons.volume_off_outlined,
+              color: searchState.isVoiceReadoutEnabled ? theme.colorScheme.primary : theme.colorScheme.outline,
+            ),
+            tooltip: searchState.isVoiceReadoutEnabled ? 'Voice readout enabled' : 'Voice readout disabled',
+            onPressed: () => ref.read(searchNotifierProvider.notifier).toggleVoiceReadout(),
+          ),
+          IconButton(
             icon: const Icon(Icons.search),
             tooltip: 'Search',
             onPressed: () => _onSearchSubmitted(_searchController.text),
