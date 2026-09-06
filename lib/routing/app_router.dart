@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import '../features/about/presentation/pages/about_page.dart';
+import '../features/auth/presentation/pages/lock_page.dart';
 import '../features/memory/presentation/pages/add_memory_page.dart';
 import '../features/memory/presentation/pages/home_page.dart';
 import '../features/memory/presentation/pages/memory_detail_page.dart';
@@ -12,6 +13,11 @@ final GoRouter appRouter = GoRouter(
       path: '/',
       name: 'home',
       builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      path: '/lock',
+      name: 'lock',
+      builder: (context, state) => const LockPage(),
     ),
     GoRoute(
       path: '/add',

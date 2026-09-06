@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../about/presentation/pages/about_page.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 import '../providers/memory_providers.dart';
 import '../widgets/memory_card.dart';
 
@@ -23,6 +24,14 @@ class HomePage extends ConsumerWidget {
             icon: const Icon(Icons.mic),
             tooltip: 'Voice Search',
             onPressed: () => context.push('/search?voice=true'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.lock_outline),
+            tooltip: 'Lock App',
+            onPressed: () {
+              ref.read(authNotifierProvider.notifier).lockApp();
+              context.go('/lock');
+            },
           ),
           IconButton(
             icon: const Icon(Icons.info_outline),
