@@ -10,7 +10,7 @@ class FakeTtsService implements TtsService {
   bool isStopped = false;
 
   @override
-  Future<void> speak(String text) async {
+  Future<void> speak(String text, [String? language]) async {
     lastSpokenText = text;
   }
 

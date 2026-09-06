@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/voice_state.dart';
 import '../providers/voice_providers.dart';
 
+import '../../../../core/localization/language_provider.dart';
+
 class SpeechDialog extends ConsumerStatefulWidget {
   const SpeechDialog({super.key});
 
@@ -23,7 +25,8 @@ class _SpeechDialogState extends ConsumerState<SpeechDialog> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(voiceStateNotifierProvider.notifier).startListening();
+      final appLang = ref.read(languageProvider);
+      ref.read(voiceStateNotifierProvider.notifier).startListening(localeId: appLang.sttLocaleId);
     });
   }
 

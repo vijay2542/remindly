@@ -100,11 +100,11 @@ class SearchNotifier extends StateNotifier<SearchState> {
     }
   }
 
-  Future<void> speakAnswerText([String? textToSpeak]) async {
+  Future<void> speakAnswerText([String? textToSpeak, String? ttsLanguage]) async {
     final text = textToSpeak ?? state.answer?.answerText;
     if (text != null && text.isNotEmpty) {
       state = state.copyWith(isSpeaking: true);
-      await ttsService.speak(text);
+      await ttsService.speak(text, ttsLanguage);
     }
   }
 

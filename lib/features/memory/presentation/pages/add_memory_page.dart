@@ -9,6 +9,8 @@ import '../providers/memory_providers.dart';
 import '../widgets/category_chip.dart';
 import '../widgets/tag_input.dart';
 
+import '../../../../core/localization/language_provider.dart';
+
 class AddMemoryPage extends ConsumerStatefulWidget {
   final bool startVoice;
   const AddMemoryPage({super.key, this.startVoice = false});
@@ -81,8 +83,9 @@ class _AddMemoryPageState extends ConsumerState<AddMemoryPage> {
   void _onSave() async {
     final saved = await ref.read(addMemoryNotifierProvider.notifier).save();
     if (saved != null && mounted) {
+      final l10n = ref.read(localizationsProvider);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Memory saved successfully!')),
+        SnackBar(content: Text(l10n.get('memorySaved'))),
       );
       context.pop();
     }
@@ -93,14 +96,15 @@ class _AddMemoryPageState extends ConsumerState<AddMemoryPage> {
     final theme = Theme.of(context);
     final state = ref.watch(addMemoryNotifierProvider);
     final notifier = ref.read(addMemoryNotifierProvider.notifier);
+    final l10n = ref.watch(localizationsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Memory'),
+        title: Text(l10n.get('addMemoryTitle')),
         actions: [
           IconButton(
             icon: const Icon(Icons.mic),
-            tooltip: 'Record Speech',
+            tooltip: l10n.get('tapToSpeak'),
             onPressed: _triggerVoiceRecording,
           ),
           TextButton.icon(
@@ -112,7 +116,7 @@ class _AddMemoryPageState extends ConsumerState<AddMemoryPage> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.check),
-            label: const Text('Save', style: TextStyle(fontWeight: FontWeight.bold)),
+            label: Text(l10n.get('saveMemory'), style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),

@@ -6,6 +6,9 @@ import '../../../auth/presentation/providers/auth_provider.dart';
 import '../providers/memory_providers.dart';
 import '../widgets/memory_card.dart';
 
+import '../../../../core/localization/language_provider.dart';
+import '../../../settings/presentation/widgets/language_selector_dialog.dart';
+
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
@@ -13,6 +16,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final recentMemoriesAsync = ref.watch(recentMemoriesProvider);
+    final l10n = ref.watch(localizationsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -20,6 +24,11 @@ class HomePage extends ConsumerWidget {
         elevation: 0,
         centerTitle: false,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            tooltip: l10n.get('languageSetting'),
+            onPressed: () => LanguageSelectorDialog.show(context),
+          ),
           IconButton(
             icon: const Icon(Icons.mic),
             tooltip: 'Voice Search',
@@ -35,7 +44,7 @@ class HomePage extends ConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.info_outline),
-            tooltip: 'About Software',
+            tooltip: l10n.get('aboutTab'),
             onPressed: () => showAppAboutDialog(context),
           ),
         ],
@@ -64,7 +73,7 @@ class HomePage extends ConsumerWidget {
                         Icon(Icons.search, color: theme.colorScheme.onSurfaceVariant),
                         const SizedBox(width: 12),
                         Text(
-                          'Ask or voice search anything...',
+                          l10n.get('searchHint'),
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -88,9 +97,9 @@ class HomePage extends ConsumerWidget {
                   child: FilledButton.icon(
                     onPressed: () => context.push('/add'),
                     icon: const Icon(Icons.add_comment_outlined),
-                    label: const Text(
-                      'Remember something',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    label: Text(
+                      l10n.get('addMemoryTitle'),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     style: FilledButton.styleFrom(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -103,7 +112,7 @@ class HomePage extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      'Recent Memories',
+                      l10n.get('memoriesTab'),
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -122,7 +131,7 @@ class HomePage extends ConsumerWidget {
                 recentMemoriesAsync.when(
                   data: (memories) {
                     if (memories.isEmpty) {
-                      return _buildEmptyState(context);
+                      return _buildEmptyState(context, ref);
                     }
                     return ListView.builder(
                       shrinkWrap: true,
@@ -156,8 +165,9 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = ref.watch(localizationsProvider);
     return Card(
       elevation: 0,
       color: theme.colorScheme.surfaceContainerLow,
@@ -169,7 +179,7 @@ class HomePage extends ConsumerWidget {
             Icon(Icons.psychology_outlined, size: 48, color: theme.colorScheme.primary),
             const SizedBox(height: 12),
             Text(
-              'No memories saved yet',
+              l10n.get('noMemories'),
               style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),

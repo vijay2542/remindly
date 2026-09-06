@@ -22,9 +22,9 @@ void main() {
     await tester.pump();
 
     expect(find.text('Remindly'), findsOneWidget);
-    expect(find.text('Ask or voice search anything...'), findsOneWidget);
-    expect(find.text('Remember something'), findsOneWidget);
-    expect(find.text('No memories saved yet'), findsOneWidget);
+    expect(find.text('Search memories, tags, category...'), findsOneWidget);
+    expect(find.text('Add Memory'), findsOneWidget);
+    expect(find.text('No memories saved yet.'), findsOneWidget);
   });
 
   testWidgets('HomePage displays saved memory card', (tester) async {
@@ -68,6 +68,6 @@ void main() {
     await tester.enterText(textField, 'Washing machine serviced on August 20');
     await tester.pump();
 
-    expect(find.text('Confirm & Save Memory'), findsOneWidget);
+    expect(find.text('Confirm & Save Memory').first, findsOneWidget);
   });
 }

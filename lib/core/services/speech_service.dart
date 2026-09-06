@@ -9,6 +9,7 @@ abstract class SpeechService {
     required Function(String text, bool isFinal) onResult,
     required Function(String error) onError,
     required Function() onSoundLevelChange,
+    String? localeId,
   });
   Future<void> stop();
   Future<void> cancel();
@@ -40,6 +41,7 @@ class SpeechServiceImpl implements SpeechService {
     required Function(String text, bool isFinal) onResult,
     required Function(String error) onError,
     required Function() onSoundLevelChange,
+    String? localeId,
   }) async {
     await _speechToText.listen(
       onResult: (SpeechRecognitionResult result) {
@@ -49,6 +51,7 @@ class SpeechServiceImpl implements SpeechService {
         listenMode: ListenMode.dictation,
         cancelOnError: true,
         partialResults: true,
+        localeId: localeId,
       ),
     );
   }

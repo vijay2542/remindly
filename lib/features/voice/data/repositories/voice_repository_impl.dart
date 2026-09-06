@@ -14,12 +14,13 @@ class VoiceRepositoryImpl implements VoiceRepository {
   }
 
   @override
-  Stream<VoiceState> startListening() {
+  Stream<VoiceState> startListening({String? localeId}) {
     final controller = StreamController<VoiceState>();
 
     controller.add(const VoiceState(status: VoiceStatus.listening, transcription: 'Listening...'));
 
     speechService.listen(
+      localeId: localeId,
       onResult: (text, isFinal) {
         if (text.isNotEmpty) {
           controller.add(VoiceState(

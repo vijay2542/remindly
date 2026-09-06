@@ -20,7 +20,7 @@ class VoiceStateNotifier extends StateNotifier<VoiceState> {
 
   VoiceStateNotifier(this.voiceRepository) : super(const VoiceState());
 
-  Future<void> startListening() async {
+  Future<void> startListening({String? localeId}) async {
     final hasPermission = await voiceRepository.initializeAndCheckPermissions();
     if (!hasPermission) {
       state = const VoiceState(
@@ -31,7 +31,7 @@ class VoiceStateNotifier extends StateNotifier<VoiceState> {
     }
 
     _subscription?.cancel();
-    _subscription = voiceRepository.startListening().listen((voiceState) {
+    _subscription = voiceRepository.startListening(localeId: localeId).listen((voiceState) {
       state = voiceState;
     });
   }
