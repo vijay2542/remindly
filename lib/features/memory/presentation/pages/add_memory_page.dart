@@ -233,6 +233,28 @@ class _AddMemoryPageState extends ConsumerState<AddMemoryPage> {
                 onTap: _pickReminderDate,
               ),
             ),
+            const SizedBox(height: 20),
+
+            // Security Lock Option
+            Text('Security & Privacy', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Card(
+              elevation: 0,
+              color: state.isSecure
+                  ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3)
+                  : theme.colorScheme.surfaceContainerLow,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: SwitchListTile(
+                secondary: Icon(
+                  state.isSecure ? Icons.lock : Icons.lock_open,
+                  color: state.isSecure ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+                ),
+                title: const Text('Mark as Secure / Private 🔒', style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: const Text('Protects this memory & reminder requiring security unlock'),
+                value: state.isSecure,
+                onChanged: (val) => notifier.setSecure(val),
+              ),
+            ),
             const SizedBox(height: 24),
 
             // Confirm Save button

@@ -16,6 +16,7 @@ class MemoryDto {
   final DateTime? reminderDate;
   final String? location;
   final Map<String, dynamic>? metadata;
+  final bool isSecure;
 
   MemoryDto({
     required this.id,
@@ -28,6 +29,7 @@ class MemoryDto {
     this.reminderDate,
     this.location,
     this.metadata,
+    this.isSecure = false,
   });
 
   factory MemoryDto.fromDomain(Memory domain) {
@@ -42,6 +44,7 @@ class MemoryDto {
       reminderDate: domain.reminderDate,
       location: domain.location,
       metadata: domain.metadata,
+      isSecure: domain.isSecure,
     );
   }
 
@@ -77,6 +80,7 @@ class MemoryDto {
       reminderDate: entry.reminderDate,
       location: entry.location,
       metadata: parsedMetadata,
+      isSecure: entry.isSecure,
     );
   }
 
@@ -92,6 +96,7 @@ class MemoryDto {
       reminderDate: reminderDate,
       location: location,
       metadata: metadata,
+      isSecure: isSecure,
     );
   }
 
@@ -107,6 +112,7 @@ class MemoryDto {
       reminderDate: Value(reminderDate),
       location: Value(location),
       metadata: Value(metadata != null ? jsonEncode(metadata) : null),
+      isSecure: Value(isSecure),
     );
   }
 }

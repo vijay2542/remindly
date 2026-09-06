@@ -12,6 +12,7 @@ class Memory {
   final DateTime? reminderDate;
   final String? location;
   final Map<String, dynamic>? metadata;
+  final bool isSecure;
 
   const Memory({
     required this.id,
@@ -24,6 +25,7 @@ class Memory {
     this.reminderDate,
     this.location,
     this.metadata,
+    this.isSecure = false,
   });
 
   Memory copyWith({
@@ -37,6 +39,7 @@ class Memory {
     DateTime? reminderDate,
     String? location,
     Map<String, dynamic>? metadata,
+    bool? isSecure,
   }) {
     return Memory(
       id: id ?? this.id,
@@ -49,6 +52,7 @@ class Memory {
       reminderDate: reminderDate ?? this.reminderDate,
       location: location ?? this.location,
       metadata: metadata ?? this.metadata,
+      isSecure: isSecure ?? this.isSecure,
     );
   }
 

@@ -67,6 +67,7 @@ class AddMemoryState {
   final List<String> tags;
   final MemorySourceType sourceType;
   final DateTime? reminderDate;
+  final bool isSecure;
   final bool isSaving;
   final String? errorMessage;
 
@@ -76,6 +77,7 @@ class AddMemoryState {
     this.tags = const [],
     this.sourceType = MemorySourceType.text,
     this.reminderDate,
+    this.isSecure = false,
     this.isSaving = false,
     this.errorMessage,
   });
@@ -87,6 +89,7 @@ class AddMemoryState {
     MemorySourceType? sourceType,
     DateTime? reminderDate,
     bool clearReminder = false,
+    bool? isSecure,
     bool? isSaving,
     String? errorMessage,
   }) {
@@ -96,6 +99,7 @@ class AddMemoryState {
       tags: tags ?? this.tags,
       sourceType: sourceType ?? this.sourceType,
       reminderDate: clearReminder ? null : (reminderDate ?? this.reminderDate),
+      isSecure: isSecure ?? this.isSecure,
       isSaving: isSaving ?? this.isSaving,
       errorMessage: errorMessage,
     );
@@ -117,6 +121,10 @@ class AddMemoryNotifier extends StateNotifier<AddMemoryState> {
 
   void setCategory(Category category) {
     state = state.copyWith(category: category);
+  }
+
+  void setSecure(bool isSecure) {
+    state = state.copyWith(isSecure: isSecure);
   }
 
   void addTag(String tag) {
@@ -160,6 +168,7 @@ class AddMemoryNotifier extends StateNotifier<AddMemoryState> {
         tags: state.tags,
         sourceType: state.sourceType,
         reminderDate: state.reminderDate,
+        isSecure: state.isSecure,
       );
 
       final saved = await createMemoryUseCase(memory);

@@ -48,7 +48,17 @@ class MemoryCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  if (memory.sourceType == MemorySourceType.voice)
+                  if (memory.isSecure)
+                    Tooltip(
+                      message: 'Secure / Private Memory',
+                      child: Icon(
+                        Icons.lock_outline,
+                        size: 18,
+                        color: theme.colorScheme.secondary,
+                      ),
+                    ),
+                  if (memory.sourceType == MemorySourceType.voice) ...[
+                    const SizedBox(width: 6),
                     Tooltip(
                       message: 'Recorded via Voice',
                       child: Icon(
@@ -57,6 +67,7 @@ class MemoryCard extends StatelessWidget {
                         color: theme.colorScheme.primary,
                       ),
                     ),
+                  ],
                 ],
               ),
               const SizedBox(height: 12),

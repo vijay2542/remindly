@@ -92,11 +92,11 @@ class MemoryDetailPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Category & Source Type
+                // Category & Source Type & Security
                 Row(
                   children: [
                     CategoryChip(category: memory.category),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
                     Chip(
                       avatar: Icon(
                         memory.sourceType.name == 'voice' ? Icons.mic : Icons.short_text,
@@ -105,6 +105,18 @@ class MemoryDetailPage extends ConsumerWidget {
                       label: Text('Source: ${memory.sourceType.label}'),
                       visualDensity: VisualDensity.compact,
                     ),
+                    if (memory.isSecure) ...[
+                      const SizedBox(width: 8),
+                      Chip(
+                        avatar: const Icon(
+                          Icons.lock,
+                          size: 16,
+                          color: Colors.amber,
+                        ),
+                        label: const Text('Secure'),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ],
                   ],
                 ),
                 const SizedBox(height: 16),

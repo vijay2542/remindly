@@ -118,6 +118,21 @@ class $MemoriesTable extends Memories
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _isSecureMeta = const VerificationMeta(
+    'isSecure',
+  );
+  @override
+  late final GeneratedColumn<bool> isSecure = GeneratedColumn<bool>(
+    'is_secure',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_secure" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -130,6 +145,7 @@ class $MemoriesTable extends Memories
     reminderDate,
     location,
     metadata,
+    isSecure,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -211,6 +227,12 @@ class $MemoriesTable extends Memories
         metadata.isAcceptableOrUnknown(data['metadata']!, _metadataMeta),
       );
     }
+    if (data.containsKey('is_secure')) {
+      context.handle(
+        _isSecureMeta,
+        isSecure.isAcceptableOrUnknown(data['is_secure']!, _isSecureMeta),
+      );
+    }
     return context;
   }
 
@@ -260,6 +282,10 @@ class $MemoriesTable extends Memories
         DriftSqlType.string,
         data['${effectivePrefix}metadata'],
       ),
+      isSecure: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_secure'],
+      )!,
     );
   }
 
@@ -280,6 +306,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
   final DateTime? reminderDate;
   final String? location;
   final String? metadata;
+  final bool isSecure;
   const MemoryEntry({
     required this.id,
     required this.content,
@@ -291,6 +318,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
     this.reminderDate,
     this.location,
     this.metadata,
+    required this.isSecure,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -311,6 +339,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
     if (!nullToAbsent || metadata != null) {
       map['metadata'] = Variable<String>(metadata);
     }
+    map['is_secure'] = Variable<bool>(isSecure);
     return map;
   }
 
@@ -332,6 +361,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
       metadata: metadata == null && nullToAbsent
           ? const Value.absent()
           : Value(metadata),
+      isSecure: Value(isSecure),
     );
   }
 
@@ -351,6 +381,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
       reminderDate: serializer.fromJson<DateTime?>(json['reminderDate']),
       location: serializer.fromJson<String?>(json['location']),
       metadata: serializer.fromJson<String?>(json['metadata']),
+      isSecure: serializer.fromJson<bool>(json['isSecure']),
     );
   }
   @override
@@ -367,6 +398,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
       'reminderDate': serializer.toJson<DateTime?>(reminderDate),
       'location': serializer.toJson<String?>(location),
       'metadata': serializer.toJson<String?>(metadata),
+      'isSecure': serializer.toJson<bool>(isSecure),
     };
   }
 
@@ -381,6 +413,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
     Value<DateTime?> reminderDate = const Value.absent(),
     Value<String?> location = const Value.absent(),
     Value<String?> metadata = const Value.absent(),
+    bool? isSecure,
   }) => MemoryEntry(
     id: id ?? this.id,
     content: content ?? this.content,
@@ -392,6 +425,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
     reminderDate: reminderDate.present ? reminderDate.value : this.reminderDate,
     location: location.present ? location.value : this.location,
     metadata: metadata.present ? metadata.value : this.metadata,
+    isSecure: isSecure ?? this.isSecure,
   );
   MemoryEntry copyWithCompanion(MemoriesCompanion data) {
     return MemoryEntry(
@@ -409,6 +443,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
           : this.reminderDate,
       location: data.location.present ? data.location.value : this.location,
       metadata: data.metadata.present ? data.metadata.value : this.metadata,
+      isSecure: data.isSecure.present ? data.isSecure.value : this.isSecure,
     );
   }
 
@@ -424,7 +459,8 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
           ..write('sourceType: $sourceType, ')
           ..write('reminderDate: $reminderDate, ')
           ..write('location: $location, ')
-          ..write('metadata: $metadata')
+          ..write('metadata: $metadata, ')
+          ..write('isSecure: $isSecure')
           ..write(')'))
         .toString();
   }
@@ -441,6 +477,7 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
     reminderDate,
     location,
     metadata,
+    isSecure,
   );
   @override
   bool operator ==(Object other) =>
@@ -455,7 +492,8 @@ class MemoryEntry extends DataClass implements Insertable<MemoryEntry> {
           other.sourceType == this.sourceType &&
           other.reminderDate == this.reminderDate &&
           other.location == this.location &&
-          other.metadata == this.metadata);
+          other.metadata == this.metadata &&
+          other.isSecure == this.isSecure);
 }
 
 class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
@@ -469,6 +507,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
   final Value<DateTime?> reminderDate;
   final Value<String?> location;
   final Value<String?> metadata;
+  final Value<bool> isSecure;
   final Value<int> rowid;
   const MemoriesCompanion({
     this.id = const Value.absent(),
@@ -481,6 +520,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
     this.reminderDate = const Value.absent(),
     this.location = const Value.absent(),
     this.metadata = const Value.absent(),
+    this.isSecure = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   MemoriesCompanion.insert({
@@ -494,6 +534,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
     this.reminderDate = const Value.absent(),
     this.location = const Value.absent(),
     this.metadata = const Value.absent(),
+    this.isSecure = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        content = Value(content),
@@ -510,6 +551,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
     Expression<DateTime>? reminderDate,
     Expression<String>? location,
     Expression<String>? metadata,
+    Expression<bool>? isSecure,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -523,6 +565,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
       if (reminderDate != null) 'reminder_date': reminderDate,
       if (location != null) 'location': location,
       if (metadata != null) 'metadata': metadata,
+      if (isSecure != null) 'is_secure': isSecure,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -538,6 +581,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
     Value<DateTime?>? reminderDate,
     Value<String?>? location,
     Value<String?>? metadata,
+    Value<bool>? isSecure,
     Value<int>? rowid,
   }) {
     return MemoriesCompanion(
@@ -551,6 +595,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
       reminderDate: reminderDate ?? this.reminderDate,
       location: location ?? this.location,
       metadata: metadata ?? this.metadata,
+      isSecure: isSecure ?? this.isSecure,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -588,6 +633,9 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
     if (metadata.present) {
       map['metadata'] = Variable<String>(metadata.value);
     }
+    if (isSecure.present) {
+      map['is_secure'] = Variable<bool>(isSecure.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -607,6 +655,7 @@ class MemoriesCompanion extends UpdateCompanion<MemoryEntry> {
           ..write('reminderDate: $reminderDate, ')
           ..write('location: $location, ')
           ..write('metadata: $metadata, ')
+          ..write('isSecure: $isSecure, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -635,6 +684,7 @@ typedef $$MemoriesTableCreateCompanionBuilder = MemoriesCompanion Function({
   Value<DateTime?> reminderDate,
   Value<String?> location,
   Value<String?> metadata,
+  Value<bool> isSecure,
   Value<int> rowid,
 });
 typedef $$MemoriesTableUpdateCompanionBuilder = MemoriesCompanion Function({
@@ -648,6 +698,7 @@ typedef $$MemoriesTableUpdateCompanionBuilder = MemoriesCompanion Function({
   Value<DateTime?> reminderDate,
   Value<String?> location,
   Value<String?> metadata,
+  Value<bool> isSecure,
   Value<int> rowid,
 });
 
@@ -707,6 +758,11 @@ class $$MemoriesTableFilterComposer
 
   ColumnFilters<String> get metadata => $composableBuilder(
     column: $table.metadata,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSecure => $composableBuilder(
+    column: $table.isSecure,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -769,6 +825,11 @@ class $$MemoriesTableOrderingComposer
     column: $table.metadata,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isSecure => $composableBuilder(
+    column: $table.isSecure,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$MemoriesTableAnnotationComposer
@@ -813,6 +874,9 @@ class $$MemoriesTableAnnotationComposer
 
   GeneratedColumn<String> get metadata =>
       $composableBuilder(column: $table.metadata, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSecure =>
+      $composableBuilder(column: $table.isSecure, builder: (column) => column);
 }
 
 class $$MemoriesTableTableManager
@@ -856,6 +920,7 @@ class $$MemoriesTableTableManager
                 Value<DateTime?> reminderDate = const Value.absent(),
                 Value<String?> location = const Value.absent(),
                 Value<String?> metadata = const Value.absent(),
+                Value<bool> isSecure = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => MemoriesCompanion(
                 id: id,
@@ -868,6 +933,7 @@ class $$MemoriesTableTableManager
                 reminderDate: reminderDate,
                 location: location,
                 metadata: metadata,
+                isSecure: isSecure,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -882,6 +948,7 @@ class $$MemoriesTableTableManager
                 Value<DateTime?> reminderDate = const Value.absent(),
                 Value<String?> location = const Value.absent(),
                 Value<String?> metadata = const Value.absent(),
+                Value<bool> isSecure = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => MemoriesCompanion.insert(
                 id: id,
@@ -894,6 +961,7 @@ class $$MemoriesTableTableManager
                 reminderDate: reminderDate,
                 location: location,
                 metadata: metadata,
+                isSecure: isSecure,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

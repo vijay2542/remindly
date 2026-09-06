@@ -12,6 +12,7 @@ class Memories extends Table {
   DateTimeColumn get reminderDate => dateTime().nullable()();
   TextColumn get location => text().nullable()();
   TextColumn get metadata => text().nullable()();
+  BoolColumn get isSecure => boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};
