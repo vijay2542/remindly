@@ -14,7 +14,7 @@ import '../features/memory/presentation/pages/memory_detail_page.dart';
 import '../features/search/presentation/pages/search_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/lock',
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',

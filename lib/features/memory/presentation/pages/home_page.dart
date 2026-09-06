@@ -21,6 +21,11 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Remindly', style: TextStyle(fontWeight: FontWeight.bold)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          tooltip: 'Dashboard',
+          onPressed: () => context.go('/'),
+        ),
         elevation: 0,
         centerTitle: false,
         actions: [
