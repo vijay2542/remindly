@@ -1,17 +1,37 @@
-# Remindly
+# 🧠 Remindly
 
-Smart personal memory & reminder assistant application built with Flutter.
+Smart personal memory & reminder assistant application built with Flutter. Developed by **Vijay Sankar S**.
 
-## Getting Started
+## 📖 Build & Emulator Instructions
 
-This project is a starting point for a Flutter application.
+For comprehensive step-by-step documentation on running the app in an Android Emulator or generating release APKs, see:
+👉 **[RUN_AND_BUILD_GUIDE.md](file:///c:/Users/Admin/.gemini/antigravity-ide/scratch/remember_this/RUN_AND_BUILD_GUIDE.md)**
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## ⚡ Quick Start
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 1. Launch Android Emulator
+```bash
+flutter emulators --launch Pixel_8
+```
+
+### 2. Run Application
+```bash
+flutter run
+```
+
+### 3. Build Release APK
+```bash
+flutter build apk --release
+```
+**Output APK**: `build/app/outputs/flutter-apk/app-release.apk`
+
+---
+
+## 🔒 Security & Key Features
+- **App Startup Lock**: Biometric Unlock (Fingerprint / Face ID) or Mobile PIN (Default: `1234`).
+- **Secure / Private Memories 🔒**: Mark sensitive reminders as private.
+- **Voice Search & TTS**: Speech-to-text voice search with automated text-to-speech search result readouts.
+- **Developer Credit**: Developed by Vijay Sankar S.
+
