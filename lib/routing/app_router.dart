@@ -74,7 +74,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/diary/editor',
       name: 'diary-editor-new',
-      builder: (context, state) => const DiaryEditorPage(),
+      builder: (context, state) {
+        final initialText = state.extra as String?;
+        return DiaryEditorPage(initialText: initialText);
+      },
     ),
     GoRoute(
       path: '/diary/entry/:id',

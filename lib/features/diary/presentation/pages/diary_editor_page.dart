@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/date_formatter.dart';
+import '../../../voice/presentation/widgets/speech_dialog.dart';
 import '../../domain/entities/diary_entry.dart';
 import '../providers/diary_providers.dart';
 
 class DiaryEditorPage extends ConsumerStatefulWidget {
   final String? entryId;
-  const DiaryEditorPage({super.key, this.entryId});
+  final String? initialText;
+  const DiaryEditorPage({super.key, this.entryId, this.initialText});
 
   @override
   ConsumerState<DiaryEditorPage> createState() => _DiaryEditorPageState();
@@ -24,6 +26,9 @@ class _DiaryEditorPageState extends ConsumerState<DiaryEditorPage> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialText != null && widget.initialText!.isNotEmpty) {
+      _contentController.text = widget.initialText!;
+    }
     if (widget.entryId != null && widget.entryId!.isNotEmpty) {
       _loadExistingEntry();
     }
@@ -37,7 +42,9 @@ class _DiaryEditorPageState extends ConsumerState<DiaryEditorPage> {
       setState(() {
         _existingEntry = entry;
         _titleController.text = entry.title;
-        _contentController.text = entry.content;
+        if (_contentController.text.isEmpty) {
+          _contentController.text = entry.content;
+        }
         _diaryDate = entry.diaryDate;
         _isLoading = false;
       });
@@ -51,6 +58,19 @@ class _DiaryEditorPageState extends ConsumerState<DiaryEditorPage> {
     _titleController.dispose();
     _contentController.dispose();
     super.dispose();
+  }
+
+  Future<void> _triggerVoiceRecording() async {
+    final recognizedText = await SpeechDialog.show(context);
+    if (recognizedText != null && recognizedText.isNotEmpty) {
+      setState(() {
+        if (_contentController.text.trim().isEmpty) {
+          _contentController.text = recognizedText;
+        } else {
+          _contentController.text = '${_contentController.text}\n$recognizedText';
+        }
+      });
+    }
   }
 
   Future<void> _pickDate() async {
@@ -134,6 +154,11 @@ class _DiaryEditorPageState extends ConsumerState<DiaryEditorPage> {
       appBar: AppBar(
         title: Text(_existingEntry != null ? 'Edit Entry' : 'Write Diary'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.mic, color: Colors.teal),
+            tooltip: 'Voice Command / Dictation',
+            onPressed: _triggerVoiceRecording,
+          ),
           TextButton.icon(
             onPressed: _isSaving ? null : _onSave,
             icon: _isSaving
@@ -198,12 +223,19 @@ class _DiaryEditorPageState extends ConsumerState<DiaryEditorPage> {
               minLines: 10,
               style: theme.textTheme.bodyLarge?.copyWith(height: 1.5),
               decoration: const InputDecoration(
-                hintText: 'Write freely about your day, thoughts, or events...',
+                hintText: 'Write freely or tap microphone for voice dictation...',
                 border: InputBorder.none,
               ),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _triggerVoiceRecording,
+        icon: const Icon(Icons.mic),
+        label: const Text('Voice Entry'),
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
       ),
     );
   }

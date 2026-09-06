@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/date_formatter.dart';
+import '../../../voice/presentation/widgets/speech_dialog.dart';
 import '../../domain/entities/diary_entry.dart';
 import '../providers/diary_auth_provider.dart';
 import '../providers/diary_providers.dart';
@@ -9,6 +10,13 @@ import '../widgets/diary_entry_card.dart';
 
 class DiaryHomePage extends ConsumerWidget {
   const DiaryHomePage({super.key});
+
+  Future<void> _triggerVoiceEntry(BuildContext context) async {
+    final recognizedText = await SpeechDialog.show(context);
+    if (recognizedText != null && recognizedText.isNotEmpty && context.mounted) {
+      context.push('/diary/editor', extra: recognizedText);
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,6 +48,11 @@ class DiaryHomePage extends ConsumerWidget {
           onPressed: () => context.go('/'),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.mic, color: Colors.teal),
+            tooltip: 'Voice Command Entry',
+            onPressed: () => _triggerVoiceEntry(context),
+          ),
           IconButton(
             icon: const Icon(Icons.calendar_month_outlined),
             tooltip: 'Calendar View',
