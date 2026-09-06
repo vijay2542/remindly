@@ -189,7 +189,7 @@ class AddMemoryNotifier extends StateNotifier<AddMemoryState> {
       state = const AddMemoryState();
       return saved;
     } catch (e) {
-      state = state.copyWith(isSaving: false, errorMessage: 'Failed to save memory.');
+      state = state.copyWith(isSaving: false, errorMessage: 'Failed to save memory: ${e.toString().replaceAll("DatabaseException: ", "")}');
       return null;
     }
   }

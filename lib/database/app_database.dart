@@ -9,7 +9,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'remindly_db');
@@ -18,6 +18,11 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onUpgrade: (m, from, to) async {
+        if (from < 2) {
+          await m.addColumn(memories, memories.isSecure);
+        }
+      },
       onCreate: (m) async {
         await m.createAll();
 
