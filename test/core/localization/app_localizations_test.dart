@@ -11,6 +11,12 @@ void main() {
       expect(l10n.get('developerCredit'), equals('Developed by Vijay Sankar S'));
     });
 
+    test('Hindi localizations return correct strings', () {
+      const l10n = AppLocalizations(AppLanguage.hindi);
+      expect(l10n.get('memoriesTab'), equals('यादें'));
+      expect(l10n.get('developerCredit'), contains('विजय शंकर एस'));
+    });
+
     test('Tamil localizations return correct strings', () {
       const l10n = AppLocalizations(AppLanguage.tamil);
       expect(l10n.get('memoriesTab'), equals('நினைவுகள்'));
